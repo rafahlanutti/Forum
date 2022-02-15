@@ -1,6 +1,6 @@
 package br.com.estudos.forum.dtos
 
-data class TopicoDTO (
+data class TopicoRequestDTO (
     val titulo: String,
     val mensagem: String,
     val idCurso: Long,
