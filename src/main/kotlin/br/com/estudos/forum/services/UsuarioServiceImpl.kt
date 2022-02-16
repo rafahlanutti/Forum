@@ -1,15 +1,14 @@
 package br.com.estudos.forum.services
 
 import br.com.estudos.forum.model.Usuario
+import br.com.estudos.forum.repository.UsuarioRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UsuarioServiceImpl(private var usuarios: List<Usuario>) : UsuarioService {
+class UsuarioServiceImpl(private val repository: UsuarioRepository) : UsuarioService {
 
-    init {
-        usuarios = listOf(Usuario(id = 1, nome = "Curso Legal", email = "email@email.com"))
+    override fun buscarPorId(id: Long): Usuario {
+        return repository.getById(id)
     }
-
-    override fun buscarPorId(id: Long): Usuario { return usuarios.stream().filter{ c -> c.id == id }.findFirst().get()}
 
 }

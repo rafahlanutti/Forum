@@ -5,6 +5,7 @@ import br.com.estudos.forum.dtos.TopicoResponseDTO
 import br.com.estudos.forum.dtos.TopicoUpdateRequestDTO
 import br.com.estudos.forum.services.TopicoService
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 import javax.validation.Valid
@@ -24,6 +25,7 @@ class TopicoController(private val service: TopicoService) {
     }
 
     @PostMapping
+    @Transactional
     fun cadastrar(@Valid @RequestBody topico: TopicoRequestDTO, uriBuilder: UriComponentsBuilder): ResponseEntity<TopicoResponseDTO> {
         var topicoResponse = service.cadastrar(topico)
         val uri = uriBuilder.path("/topicos/${topicoResponse.id}").build().toUri()
@@ -31,11 +33,13 @@ class TopicoController(private val service: TopicoService) {
     }
 
     @PutMapping
+    @Transactional
     fun atualizar(@Valid @RequestBody topico: TopicoUpdateRequestDTO): ResponseEntity<TopicoResponseDTO> {
         return ResponseEntity.ok().body(service.atualizar(topico))
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     fun deletar(@PathVariable id: Long): ResponseEntity<Void> {
         service.deletar(id)
         return ResponseEntity.noContent().build()

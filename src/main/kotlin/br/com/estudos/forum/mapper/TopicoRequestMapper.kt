@@ -12,9 +12,7 @@ class TopicoRequestMapper(private val cursoService: CursoService,
                           private var identity: Long = 0) : Mapper<TopicoRequestDTO, Topico> {
 
     override fun map(topico: TopicoRequestDTO): Topico {
-        identity+= 1L;
         return Topico(
-            id = identity,
             titulo = topico.titulo,
             mensagem = topico.mensagem,
             curso = cursoService.buscarPorId(topico.idCurso),
