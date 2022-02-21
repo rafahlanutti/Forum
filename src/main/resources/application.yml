@@ -12,3 +12,6 @@ spring:
         format_sql: true
 #    defer-datasource-initialization: true
 #   referencia defer-datasource-initialization: https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html
+  h2:
+    console:
+      enabled: true
