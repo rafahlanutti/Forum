@@ -7,6 +7,8 @@ import br.com.estudos.forum.exceptions.NotFoundException
 import br.com.estudos.forum.mapper.TopicoMapper
 import br.com.estudos.forum.mapper.TopicoRequestMapper
 import br.com.estudos.forum.repository.TopicoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
@@ -18,10 +20,13 @@ class TopicoServiceImpl(
     private val notFoundMessage: String = "Objeto não encontrado"
 ) : TopicoService {
 
-    override fun listar(): List<TopicoResponseDTO> {
-        return repository.findAll().stream().map { t ->
-            topicoMapper.map(t)
-        }.collect(Collectors.toList())
+    override fun listar(nomeCurso: String?, paginacao: Pageable): Page<TopicoResponseDTO> {
+        val topicos = if(nomeCurso == null) {
+            repository.findAll(paginacao)
+        } else {
+            repository.findByCursoNome(nomeCurso,paginacao)
+        }
+        return topicos.map { t ->topicoMapper.map(t)}
     }
 
     override fun buscarPorId(id: Long): TopicoResponseDTO {
